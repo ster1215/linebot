@@ -10,6 +10,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+import re
 
 app = Flask(__name__)
 
@@ -19,7 +20,7 @@ line_bot_api = LineBotApi('Elcb3MWRQlkmjPXfemxIwokzayw967zWj8T+HJ18cH8ILmLzv8mGR
 # 必須放上自己的Channel Secret
 handler = WebhookHandler('24920053ef16fd0f2f061a901242e764')
 
-line_bot_api.push_message('U4506b76b7f2cbbf6b7807141df770a3c', TextSendMessage(text='你可以開始了'))
+line_bot_api.push_message('U4506b76b7f2cbbf6b7807141df770a3c', TextSendMessage(text='您好,目前時間是 2024/10/10 14:00 ，請問需要什麼服務呢?'))
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -45,6 +46,10 @@ def callback():
 def handle_message(event):
     message = TextSendMessage(text=event.message.text)
     line_bot_api.reply_message(event.reply_token,message)
+    if re.match=="天氣":
+        line_bot_api.reply_message(event.reply_token,"請稍等，我幫您查詢天氣資訊！")
+    else:
+        line_bot_api.reply_message(event.reply_token,"很抱歉，我目前無法理解這個內容。")
 
 #主程式
 import os
