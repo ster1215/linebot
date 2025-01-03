@@ -23,7 +23,8 @@ handler = WebhookHandler('24920053ef16fd0f2f061a901242e764')
 # 初始化推播訊息
 def send_initial_message():
     try:
-        line_bot_api.push_message('U262565b00a73c456ebba11b0bd1e7762', TextSendMessage(text='你可以開始了'))
+        current_time = datetime.now().strftime('%Y/%m/%d %H:%M')
+        line_bot_api.push_message('U4506b76b7f2cbbf6b7807141df770a3c',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
     except Exception as e:
         app.logger.error(f"Push message failed: {e}")
 
@@ -51,7 +52,11 @@ def callback():
 ##### 基本上程式編輯都在這個function #####
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    # 去除訊息的前後空白
     user_message = event.message.text.strip()
+
+    # 印出使用者訊息，便於除錯
+    print(f"使用者訊息: '{user_message}'")
 
     if user_message == "天氣":
         reply_message = TextSendMessage(text="請稍等，我幫您查詢天氣資訊！")
@@ -67,9 +72,19 @@ def handle_message(event):
                 QuickReplyButton(action=MessageAction(label="美國", text="US"))
             ])
         )
+    elif user_message == "心情好":
+        reply_message = StickerSendMessage(
+            package_id='11537',
+            sticker_id='52002734'  # 高興的貼圖
+        )
+    elif user_message == "心情不好":
+        reply_message = StickerSendMessage(
+            package_id='11537',
+            sticker_id='52002735'  # 傷心的貼圖
+        )
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
-
+        
     line_bot_api.reply_message(event.reply_token, reply_message)
 
 # 主程式
