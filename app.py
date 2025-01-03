@@ -78,21 +78,33 @@ def handle_message(event):
             package_id='11537',
             sticker_id='52002735'  # 傷心的貼圖
         )
-    elif user_message == "找美食":
+    elif user_message == "找學校":
         # 回傳餐廳的位置
         reply_message = LocationSendMessage(
-            title='當地著名餐廳',
-            address='台北市大安區信義路二段',
-            latitude=25.032969,  # 假設位置的緯度
-            longitude=121.565418  # 假設位置的經度
+            title='靜宜大學',
+            address='433台中市沙鹿區台灣大道七段200號',
+            latitude=24.2281419,  # 假設位置的緯度
+            longitude=120.5801225  # 假設位置的經度
         )
     elif user_message == "找景點":
         # 回傳景點的位置
         reply_message = LocationSendMessage(
-            title='當地熱門景點',
-            address='台北市士林區中正路',
-            latitude=25.091000,  # 假設位置的緯度
-            longitude=121.464704  # 假設位置的經度
+            title='主顧聖母堂',
+            address='433台中市沙鹿區台灣大道七段200號',
+            latitude=24.2281419,  # 假設位置的緯度
+            longitude=120.5801225  # 假設位置的經度
+        )
+    elif user_message == "熱門音樂":
+        # 回傳熱門音樂
+        reply_message = AudioSendMessage(
+            original_content_url='https://www.youtube.com/watch?v=K4DyBUG242c&ab_channel=NoCopyrightSounds',  # 請替換成熱門音樂的 URL
+            duration=240000  # 音樂長度 (毫秒)
+        )
+    elif user_message == "放鬆音樂":
+        # 回傳放鬆音樂
+        reply_message = AudioSendMessage(
+            original_content_url='https://www.youtube.com/watch?v=tcHJodG5hX8&ab_channel=NoCopyrightSounds',  # 請替換成放鬆音樂的 URL
+            duration=300000  # 音樂長度 (毫秒)
         )
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
