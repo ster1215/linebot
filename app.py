@@ -129,7 +129,7 @@ def handle_message(event):
     elif user_message == "推薦餐廳":
     # 設置 Imagemap 圖片的背景圖片和尺寸
         imagemap_message = ImagemapSendMessage(
-        base_url='https://example.com/restaurant_image',  # 替換成您的圖片 URL
+        base_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfFL8eu5sGhg-oIFeV0oxCYN3mBjwJXvClQ&s',  # 替換成您的圖片 URL
         alt_text='推薦餐廳',
         base_size={'width': 1040, 'height': 1040},  # 圖片的尺寸
         actions=[
@@ -156,6 +156,50 @@ def handle_message(event):
         ]
         )
         reply_message = imagemap_message
+    elif user_message == "推薦景點":
+        # 設計 Carousel Template 顯示多個旅遊景點選項
+        carousel_template = CarouselTemplate(
+            columns=[
+                CarouselColumn(
+                    thumbnail_image_url="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQwcDKJPxHa0Ou3h56OMsfuCYROOGaw_2gOwPnvKMNgr80rwxV5VEvg30QbuWt_lwhJ0d6KWCp0Bd52pwnowLdSudRRkGWDCdeV68cd7A",  # 替換為景點的圖片 URL
+                    title="景點1：日月潭",
+                    text="點擊查看詳細資訊",
+                    actions=[
+                        URIAction(label="查看詳情", uri="https://www.sunmoonlake.gov.tw/zh-tw")  # 替換為景點的網站或導覽鏈接
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url="https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRkApR-XG_Io16YNO2OeWK1hmZtv8FpgBkQr6HxD1NfSjfBFyxvwcDg0hCmGfT8Zk8_ROckhsw26LtUX0WyW1pRDKYMtjNRV8nzh2vNyQ",  # 替換為景點的圖片 URL
+                    title="景點2：阿里山",
+                    text="點擊查看詳細資訊",
+                    actions=[
+                        URIAction(label="查看詳情", uri="https://www.ali-nsa.net/")  # 替換為景點的網站或導覽鏈接
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url="https://image-tc.galaxy.tf/wijpeg-19za0ro24q24b9b9ez8lz2e9x/taipei-101.jpg",  # 替換為景點的圖片 URL
+                    title="景點3：台北101",
+                    text="點擊查看詳細資訊",
+                    actions=[
+                        URIAction(label="查看詳情", uri="https://www.taipei-101.com.tw/tw/")  # 替換為景點的網站或導覽鏈接
+                    ]
+                ),
+                CarouselColumn(
+                    thumbnail_image_url="https://lh3.googleusercontent.com/p/AF1QipOMMZ603bHExjiEb1abciOs9q4WeatKtakynx8o=s1360-w1360-h1020",  # 替換為景點的圖片 URL
+                    title="景點4：墾丁",
+                    text="點擊查看詳細資訊",
+                    actions=[
+                        URIAction(label="查看詳情", uri="https://www.ktnp.gov.tw/")  # 替換為景點的網站或導覽鏈接
+                    ]
+                )
+            ]
+        )
+
+        reply_message = TemplateSendMessage(
+            alt_text="推薦景點",
+            template=carousel_template
+        )
+
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
         
