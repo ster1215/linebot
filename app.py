@@ -14,6 +14,7 @@ from datetime import datetime
 
 from linebot.models import ButtonsTemplate, URIAction
 from linebot.models import ImagemapSendMessage, ImagemapArea
+from linebot.models import ConfirmTemplate, MessageAction, QuickReplyButton
 
 app = Flask(__name__)
 
@@ -199,6 +200,58 @@ def handle_message(event):
             alt_text="推薦景點",
             template=carousel_template
         )
+    elif user_message == "我要訂餐":
+        # 顯示訂單資訊
+        order_details = TextSendMessage(text="【無敵好吃牛肉麵 * 1 ，總價NT200】")
+        
+        # ConfirmTemplate：確定或取消訂單
+        confirm_template = ConfirmTemplate(
+            text='請確認您的訂單',
+            actions=[
+                MessageAction(label='確定', text='確定'),
+                MessageAction(label='取消', text='取消')
+            ]
+        )
+        
+        # 發送訂單確認訊息
+        confirm_message = TemplateSendMessage(
+            alt_text='訂單確認',
+            template=confirm_template
+        )
+
+        line_bot_api.reply_message(event.reply_token, [order_details, confirm_message])
+    elif user_message == "我想吃飯":
+        # 顯示 QuickReply 按鈕
+        quick_reply_message = TextSendMessage(
+            text="請選擇您想要的項目",
+            quick_reply=QuickReply(items=[
+                QuickReplyButton(action=MessageAction(label="主菜", text="主菜")),
+                QuickReplyButton(action=MessageAction(label="湯品", text="湯品")),
+                QuickReplyButton(action=MessageAction(label="飲料", text="飲料"))
+            ])
+        )
+        
+        line_bot_api.reply_message(event.reply_token, quick_reply_message)
+
+    elif user_message == "主菜":
+        reply_message = TextSendMessage(text="您已成功將【主菜】加入購物車")
+        line_bot_api.reply_message(event.reply_token, reply_message)
+
+    elif user_message == "湯品":
+        reply_message = TextSendMessage(text="您已成功將【湯品】加入購物車")
+        line_bot_api.reply_message(event.reply_token, reply_message)
+
+    elif user_message == "飲料":
+        reply_message = TextSendMessage(text="您已成功將【飲料】加入購物車")
+        line_bot_api.reply_message(event.reply_token, reply_message)
+
+    elif user_message == "確定":
+        reply_message = TextSendMessage(text="訂單已確認，謝謝您的購買！")
+        line_bot_api.reply_message(event.reply_token, reply_message)
+
+    elif user_message == "取消":
+        reply_message = TextSendMessage(text="已取消訂單，謝謝您的光臨！")
+        line_bot_api.reply_message(event.reply_token, reply_message)
 
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
