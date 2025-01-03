@@ -12,6 +12,8 @@ from linebot.models import *
 import re
 from datetime import datetime
 
+from linebot.models import ButtonsTemplate, URIAction
+
 app = Flask(__name__)
 
 # 必須放上自己的Channel Access Token
@@ -96,16 +98,33 @@ def handle_message(event):
         )
     elif user_message == "熱門音樂":
         # 回傳熱門音樂
-        reply_message = AudioSendMessage(
-            original_content_url='https://www.youtube.com/watch?v=K4DyBUG242c&ab_channel=NoCopyrightSounds',  # 請替換成熱門音樂的 URL
-            duration=240000  # 音樂長度 (毫秒)
+        buttons_template = ButtonsTemplate(
+        title='熱門音樂',
+        text='點擊觀看熱門音樂！',
+        actions=[
+            URIAction(label='觀看 YouTube', uri='https://www.youtube.com/watch?v=K4DyBUG242c&ab_channel=NoCopyrightSounds')
+        ]
         )
+        reply_message = TemplateSendMessage(alt_text='熱門音樂', template=buttons_template)
     elif user_message == "放鬆音樂":
         # 回傳放鬆音樂
-        reply_message = AudioSendMessage(
-            original_content_url='https://www.youtube.com/watch?v=tcHJodG5hX8&ab_channel=NoCopyrightSounds',  # 請替換成放鬆音樂的 URL
-            duration=300000  # 音樂長度 (毫秒)
-        )
+        buttons_template = ButtonsTemplate(
+        title='放鬆音樂',
+        text='點擊觀看放鬆音樂！',
+        actions=[
+            URIAction(label='觀看 YouTube', uri='https://www.youtube.com/watch?v=tcHJodG5hX8&ab_channel=NoCopyrightSounds')
+        ]
+    )
+        reply_message = TemplateSendMessage(alt_text='放鬆音樂', template=buttons_template)
+    elif user_message == "今天是我的生日":
+        # 回傳生日祝福圖片
+        reply_message = [
+            ImageSendMessage(
+                original_content_url='https://cdn.pixabay.com/photo/2024/01/26/15/32/birthday-8534158_1280.png',  # 替換為您要發送的生日祝福圖片的 URL
+                preview_image_url='https://cdn.pixabay.com/photo/2024/01/26/15/32/birthday-8534158_1280.png'  # 生日圖片的預覽圖
+            ),
+            TextSendMessage(text="生日快樂！祝你有個美好的一年！🎉")
+        ]
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
         
