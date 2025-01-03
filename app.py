@@ -52,11 +52,7 @@ def callback():
 ##### 基本上程式編輯都在這個function #####
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    # 去除訊息的前後空白
     user_message = event.message.text.strip()
-
-    # 印出使用者訊息，便於除錯
-    print(f"使用者訊息: '{user_message}'")
 
     if user_message == "天氣":
         reply_message = TextSendMessage(text="請稍等，我幫您查詢天氣資訊！")
@@ -82,10 +78,27 @@ def handle_message(event):
             package_id='11537',
             sticker_id='52002735'  # 傷心的貼圖
         )
+    elif user_message == "找美食":
+        # 回傳餐廳的位置
+        reply_message = LocationSendMessage(
+            title='當地著名餐廳',
+            address='台北市大安區信義路二段',
+            latitude=25.032969,  # 假設位置的緯度
+            longitude=121.565418  # 假設位置的經度
+        )
+    elif user_message == "找景點":
+        # 回傳景點的位置
+        reply_message = LocationSendMessage(
+            title='當地熱門景點',
+            address='台北市士林區中正路',
+            latitude=25.091000,  # 假設位置的緯度
+            longitude=121.464704  # 假設位置的經度
+        )
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
         
     line_bot_api.reply_message(event.reply_token, reply_message)
+
 
 # 主程式
 import os
