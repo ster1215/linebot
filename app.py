@@ -13,6 +13,7 @@ import re
 from datetime import datetime
 
 from linebot.models import ButtonsTemplate, URIAction
+from linebot.models import ImagemapSendMessage, ImagemapArea
 
 app = Flask(__name__)
 
@@ -125,6 +126,36 @@ def handle_message(event):
             ),
             TextSendMessage(text="生日快樂！祝你有個美好的一年！🎉")
         ]
+    elif user_message == "推薦餐廳":
+    # 設置 Imagemap 圖片的背景圖片和尺寸
+        imagemap_message = ImagemapSendMessage(
+        base_url='https://example.com/restaurant_image',  # 替換成您的圖片 URL
+        alt_text='推薦餐廳',
+        base_size={'width': 1040, 'height': 1040},  # 圖片的尺寸
+        actions=[
+            # 日式料理區域
+            ImagemapArea(
+                x=0, y=0, width=520, height=520,
+                action=URIAction(uri='https://www.google.com/maps/place/%E7%84%BC%E8%82%89%E3%82%B9%E3%83%9E%E3%82%A4%E3%83%AB%EF%BC%88%E7%87%92%E8%82%89Smile%EF%BC%89+%E5%8F%B0%E4%B8%AD%E6%B2%99%E9%B9%BF%E5%BA%97/@24.2270639,120.55503,3066m/data=!3m1!1e3!4m10!1m2!2m1!1z6Z2c5a6c5aSn5a246ZmE6L-R55qE5pel5byP6aSQ5buz!3m6!1s0x3469150008947725:0xf0ce0689f53ec07f!8m2!3d24.2270639!4d120.5732944!15sCiHpnZzlrpzlpKflrbjpmYTov5HnmoTml6XlvI_ppJDlu7NaKiIo6Z2cIOWunCDlpKflrbgg6ZmE6L-RIOeahCDml6Ug5byPIOmkkOW7s5IBE3lha2luaWt1X3Jlc3RhdXJhbnTgAQA!16s%2Fg%2F11smn96vdv?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D')  # 替換成日式餐廳的 URL
+            ),
+            # 西式料理區域
+            ImagemapArea(
+                x=520, y=0, width=520, height=520,
+                action=URIAction(uri='https://www.google.com/maps/place/%E5%B8%83%E6%B4%9B%E6%80%9D%E5%BB%9APURO+taverna/@24.2271008,120.55503,3066m/data=!3m1!1e3!4m16!1m8!2m7!1z6Z2c5a6c5aSn5a246ZmE6L-R55qE6KW_5byP6aSQ5buz!3m5!2z6Z2c5a6c5aSn5a24!3s0x346915ab3fd07acf:0x8bea4967097a54a3!4m2!1d120.5771913!2d24.2258027!3m6!1s0x346914f07cd2ac11:0x421eeb129436037c!8m2!3d24.2306584!4d120.5651496!15sCiHpnZzlrpzlpKflrbjpmYTov5HnmoTopb_lvI_ppJDlu7NaKSIn6Z2cIOWunCDlpKflrbgg6ZmE6L-RIOeahCDopb_lvI8g6aSQ5buzkgESaXRhbGlhbl9yZXN0YXVyYW50mgEjQ2haRFNVaE5NRzluUzBWSlEwRm5TVVJYZGpWVU9VVm5FQUXgAQD6AQQIABAb!16s%2Fg%2F11b6z2k_t8?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D')  # 替換成西式餐廳的 URL
+            ),
+            # 中式料理區域
+            ImagemapArea(
+                x=0, y=520, width=520, height=520,
+                action=URIAction(uri='https://www.google.com/maps/place/%E9%A6%99%E6%B8%AF%E4%B9%9D%E9%BE%8D%E5%9F%8E%E5%B0%8F%E5%90%83%E5%BA%97/@24.2271377,120.55503,3066m/data=!3m1!1e3!4m16!1m8!2m7!1z6Z2c5a6c5aSn5a246ZmE6L-R55qE5Lit5byP6aSQ5buz!3m5!2z6Z2c5a6c5aSn5a24!3s0x346915ab3fd07acf:0x8bea4967097a54a3!4m2!1d120.5771913!2d24.2258027!3m6!1s0x346915aa99db7be5:0x5b7f8df2489c80f6!8m2!3d24.2279181!4d120.5746839!15sCiHpnZzlrpzlpKflrbjpmYTov5HnmoTkuK3lvI_ppJDlu7NaKSIn6Z2cIOWunCDlpKflrbgg6ZmE6L-RIOeahCDkuK3lvI8g6aSQ5buzkgEKcmVzdGF1cmFudOABAA!16s%2Fg%2F11dyww1c4c?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D')  # 替換成中式餐廳的 URL
+            ),
+            # 法式料理區域
+            ImagemapArea(
+                x=520, y=520, width=520, height=520,
+                action=URIAction(uri='https://www.google.com/maps/place/%E5%82%91%E7%90%86%E6%AD%90%E6%B3%95%E5%B0%8F%E9%A4%A8+since2004+%EF%BD%9C%E7%87%9F%E6%A5%AD%E4%B8%AD%E4%B8%8D%E6%96%B9%E4%BE%BF%E6%8E%A5%E8%81%BD%E9%9B%BB%E8%A9%B1%EF%BD%9C%E4%B8%8D%E6%98%AF%E8%A6%AA%E5%AD%90%E9%A4%90%E5%BB%B3%EF%BD%9C%E8%AB%8B%E5%96%84%E7%94%A8LINE%E5%92%8C%E7%B7%9A%E4%B8%8A%E9%A0%90%E7%B4%84%E7%B3%BB%E7%B5%B1%EF%BD%9C/@24.2271745,120.55503,3066m/data=!3m1!1e3!4m16!1m8!2m7!1z6Z2c5a6c5aSn5a246ZmE6L-R55qE5rOV5byP6aSQ5buz!3m5!2z6Z2c5a6c5aSn5a24!3s0x346915ab3fd07acf:0x8bea4967097a54a3!4m2!1d120.5771913!2d24.2258027!3m6!1s0x346915024217940d:0x8f3754b8a7965660!8m2!3d24.2299891!4d120.5663022!15sCiHpnZzlrpzlpKflrbjpmYTov5HnmoTms5XlvI_ppJDlu7NaKSIn6Z2cIOWunCDlpKflrbgg6ZmE6L-RIOeahCDms5XlvI8g6aSQ5buzkgEWY29udGluZW50YWxfcmVzdGF1cmFudOABAA!16s%2Fg%2F1tp8xshm?entry=ttu&g_ep=EgoyMDI0MTIxMS4wIKXMDSoASAFQAw%3D%3D')  # 替換成法式餐廳的 URL
+            ),
+        ]
+        )
+        reply_message = imagemap_message
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
         
