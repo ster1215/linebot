@@ -25,13 +25,13 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('Elcb3MWRQlkmjPXfemxIwokzayw967zWj8T+HJ18cH8ILmLzv8mGRR/AtCJegJbvXtAhlGcH+wlF3mhuf8S8c1GpvGkYDMkkrEQAh5sddChykuVXQ65FMYfrgV6mEpKS1NLszG9ES6jIdJY0N7tv9QdB04t89/1O/w1cDnyilFU=')
 
 # 必須放上自己的Channel Secret
-handler = WebhookHandler('')
+handler = WebhookHandler('24920053ef16fd0f2f061a901242e764')
 
 # 初始化推播訊息
 def send_initial_message():
     try:
         current_time = datetime.now().strftime('%Y/%m/%d %H:%M')
-        line_bot_api.push_message('',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢? 關鍵服務為:天氣、告訴我秘密、心情好、心情不好、找學校、找景點、熱門音樂、放鬆音樂、今天是我的生日、推薦餐廳、我要訂餐、我想吃飯、推薦給我一首音樂'))
+        line_bot_api.push_message('U4506b76b7f2cbbf6b7807141df770a3c',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢? 關鍵服務為:天氣、告訴我秘密、心情好、心情不好、找學校、找景點、熱門音樂、放鬆音樂、今天是我的生日、推薦餐廳、我要訂餐、我想吃飯、推薦給我一首音樂'))
     except Exception as e:
         app.logger.error(f"Push message failed: {e}")
 
