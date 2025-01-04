@@ -10,25 +10,28 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 import re
+import random
+
 from datetime import datetime
 
 from linebot.models import ButtonsTemplate, URIAction
 from linebot.models import ImagemapSendMessage, ImagemapArea
 from linebot.models import ConfirmTemplate, MessageAction, QuickReplyButton
 
+
 app = Flask(__name__)
 
 # 必須放上自己的Channel Access Token
-line_bot_api = LineBotApi('Elcb3MWRQlkmjPXfemxIwokzayw967zWj8T+HJ18cH8ILmLzv8mGRR/AtCJegJbvXtAhlGcH+wlF3mhuf8S8c1GpvGkYDMkkrEQAh5sddChykuVXQ65FMYfrgV6mEpKS1NLszG9ES6jIdJY0N7tv9QdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('')
 
 # 必須放上自己的Channel Secret
-handler = WebhookHandler('24920053ef16fd0f2f061a901242e764')
+handler = WebhookHandler('')
 
 # 初始化推播訊息
 def send_initial_message():
     try:
         current_time = datetime.now().strftime('%Y/%m/%d %H:%M')
-        line_bot_api.push_message('U4506b76b7f2cbbf6b7807141df770a3c',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
+        line_bot_api.push_message('',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
     except Exception as e:
         app.logger.error(f"Push message failed: {e}")
 
@@ -252,7 +255,19 @@ def handle_message(event):
     elif user_message == "取消":
         reply_message = TextSendMessage(text="已取消訂單，謝謝您的光臨！")
         line_bot_api.reply_message(event.reply_token, reply_message)
-
+    elif user_message == "推薦給我一首音樂":
+        youtube_videos = [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ",  # 示例影片1
+        "https://www.youtube.com/watch?v=aAkMkVFwAoo&ab_channel=MariahCareyVEVO",  # 示例影片2
+        "https://www.youtube.com/watch?v=ZZ5LpwO-An4&t=24s&ab_channel=ProtoOfSnagem",  # 示例影片3
+        "https://www.youtube.com/watch?v=rvrZJ5C_Nwg&t=0s&ab_channel=KirinJCallinanVEVO",  # 示例影片4
+        "https://www.youtube.com/watch?v=K4DyBUG242c&ab_channel=NoCopyrightSounds",  # 示例影片5
+        ]
+        random_video = random.choice(youtube_videos)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=f"推薦的隨機影片：{random_video}")
+        )
     else:
         reply_message = TextSendMessage(text="很抱歉，我目前無法理解這個內容。")
         
