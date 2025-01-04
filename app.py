@@ -31,7 +31,7 @@ handler = WebhookHandler('')
 def send_initial_message():
     try:
         current_time = datetime.now().strftime('%Y/%m/%d %H:%M')
-        line_bot_api.push_message('',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
+        line_bot_api.push_message('',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢? 關鍵服務為:天氣、告訴我秘密、心情好、心情不好、找學校、找景點、熱門音樂、放鬆音樂、今天是我的生日、推薦餐廳、我要訂餐、我想吃飯、推薦給我一首音樂'))
     except Exception as e:
         app.logger.error(f"Push message failed: {e}")
 
