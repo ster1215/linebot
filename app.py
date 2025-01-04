@@ -22,16 +22,16 @@ from linebot.models import ConfirmTemplate, MessageAction, QuickReplyButton
 app = Flask(__name__)
 
 # 必須放上自己的Channel Access Token
-LineBotApi('Elcb3MWRQlkmjPXfemxIwokzayw967zWj8T+HJ18cH8ILmLzv8mGRR/AtCJegJbvXtAhlGcH+wlF3mhuf8S8c1GpvGkYDMkkrEQAh5sddChykuVXQ65FMYfrgV6mEpKS1NLszG9ES6jIdJY0N7tv9QdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('Elcb3MWRQlkmjPXfemxIwokzayw967zWj8T+HJ18cH8ILmLzv8mGRR/AtCJegJbvXtAhlGcH+wlF3mhuf8S8c1GpvGkYDMkkrEQAh5sddChykuVXQ65FMYfrgV6mEpKS1NLszG9ES6jIdJY0N7tv9QdB04t89/1O/w1cDnyilFU=')
 
 # 必須放上自己的Channel Secret
-handler = WebhookHandler('24920053ef16fd0f2f061a901242e764')
+handler = WebhookHandler('')
 
 # 初始化推播訊息
 def send_initial_message():
     try:
         current_time = datetime.now().strftime('%Y/%m/%d %H:%M')
-        LineBotApi.push_message('U4506b76b7f2cbbf6b7807141df770a3c',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
+        line_bot_api.push_message('',TextSendMessage(text=f'您好，目前時間是 {current_time} ，請問需要什麼服務呢?'))
     except Exception as e:
         app.logger.error(f"Push message failed: {e}")
 
